@@ -7,6 +7,7 @@ import ProfileScreen from "./screens/ProfileScreen";
 import ExploreScreen from "./screens/ExploreScreen";
 import ReelsScreen from "./screens/ReelsScreen";
 import MarketPlaceScreen from "./screens/MarketPlaceScreen";
+import HomeFeedLikerScreen from "./screens/HomeFeedLikerScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,11 +33,36 @@ export default function App() {
           screenOptions={{ headerShown: false }}
           initialRouteName="Timeline"
         >
-          <Stack.Screen name="Timeline" component={TimelineScreen} />
-          <Stack.Screen name="Explore" component={ExploreScreen} />
-          <Stack.Screen name="Reels" component={ReelsScreen} />
-          <Stack.Screen name="MarketPlace" component={MarketPlaceScreen} />
-          <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen
+            options={{ animation: "none" }}
+            name="Timeline"
+            component={TimelineScreen}
+          />
+          <Stack.Screen
+            options={{ animation: "none" }}
+            name="Explore"
+            component={ExploreScreen}
+          />
+          <Stack.Screen
+            options={{ animation: "none" }}
+            name="Reels"
+            component={ReelsScreen}
+          />
+          <Stack.Screen
+            options={{ animation: "none" }}
+            name="MarketPlace"
+            component={MarketPlaceScreen}
+          />
+          <Stack.Screen
+            options={{ animation: "none" }}
+            name="Profile"
+            component={ProfileScreen}
+          />
+          <Stack.Screen
+            options={{ animation: "slide_from_right" }}
+            name="HomeFeedLiker"
+            component={HomeFeedLikerScreen}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </TailwindProvider>

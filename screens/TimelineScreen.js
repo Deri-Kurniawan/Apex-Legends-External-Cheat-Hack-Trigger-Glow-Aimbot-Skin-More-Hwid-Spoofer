@@ -12,10 +12,7 @@ import React, { useCallback, useState } from "react";
 import FocusedStatusBar from "../components/FocusedStatusbar";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Feather from "react-native-vector-icons/Feather";
-import Fontisto from "react-native-vector-icons/Fontisto";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Foundation from "react-native-vector-icons/Foundation";
-import Octicons from "react-native-vector-icons/Octicons";
+import Navbar from "../components/Navbar";
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -199,7 +196,7 @@ const TimelineScreen = ({ navigation }) => {
         {
           id: 1,
           avatar: "http://unsplash.it/800?random",
-          username: "kontolodon404",
+          username: "asique_people",
           image: "http://unsplash.it/800?random",
           location: "Legok Hangseur",
           caption:
@@ -263,18 +260,41 @@ const TimelineScreen = ({ navigation }) => {
     ({ item }) => (
       <>
         <View className="flex flex-row">
-          <View className="flex flex-row items-center flex-grow">
-            <Image
-              source={{ uri: item.avatar }}
-              className="ml-2 rounded-full w-7 h-7"
-            />
+          <TouchableOpacity
+            activeOpacity={0.5}
+            className="flex flex-row items-center flex-grow"
+            onPress={(e) => {
+              e.stopPropagation();
+              navigation.navigate("Profile");
+            }}
+          >
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={(e) => {
+                e.stopPropagation();
+                console.log("Story if exist");
+              }}
+            >
+              <Image
+                source={{ uri: item.avatar }}
+                className="ml-2 rounded-full w-7 h-7"
+              />
+            </TouchableOpacity>
             <View className="flex flex-col">
-              <Text className="pl-2 font-extrabold">{item.username}</Text>
+              <Text className="pl-2 font-extrabold ">{item.username}</Text>
               {item.location && (
-                <Text className="pl-2 text-xs">{item.location}</Text>
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  onPress={(e) => {
+                    e.stopPropagation();
+                    console.log("Location if exist");
+                  }}
+                >
+                  <Text className="pl-2 text-xs">{item.location}</Text>
+                </TouchableOpacity>
               )}
             </View>
-          </View>
+          </TouchableOpacity>
           <View className="p-4">
             <Feather size={18} name="more-vertical" />
           </View>
@@ -285,7 +305,11 @@ const TimelineScreen = ({ navigation }) => {
         />
         <View className="flex flex-row justify-between px-2">
           <View className="flex flex-row">
-            <TouchableOpacity className="p-2">
+            <TouchableOpacity
+              className="p-2"
+              activeOpacity={0.5}
+              onPress={() => console.log("Like clicked")}
+            >
               <Image
                 source={{
                   uri: "https://cdn-icons-png.flaticon.com/512/5948/5948503.png",
@@ -293,7 +317,11 @@ const TimelineScreen = ({ navigation }) => {
                 className="w-6 h-6"
               />
             </TouchableOpacity>
-            <TouchableOpacity className="p-2">
+            <TouchableOpacity
+              className="p-2"
+              activeOpacity={0.5}
+              onPress={() => console.log("Comment clicked")}
+            >
               <Image
                 source={{
                   uri: "https://cdn-icons-png.flaticon.com/512/5948/5948565.png",
@@ -301,7 +329,11 @@ const TimelineScreen = ({ navigation }) => {
                 className="w-6 h-6"
               />
             </TouchableOpacity>
-            <TouchableOpacity className="p-2">
+            <TouchableOpacity
+              className="p-2"
+              activeOpacity={0.5}
+              onPress={() => console.log("Share clicked")}
+            >
               <Image
                 source={{
                   uri: "https://cdn-icons-png.flaticon.com/512/5948/5948572.png",
@@ -310,7 +342,11 @@ const TimelineScreen = ({ navigation }) => {
               />
             </TouchableOpacity>
           </View>
-          <TouchableOpacity className="p-2">
+          <TouchableOpacity
+            className="p-2"
+            activeOpacity={0.5}
+            onPress={() => console.log("Bookmark clicked")}
+          >
             <Image
               source={{
                 uri: "https://cdn-icons-png.flaticon.com/128/5948/5948594.png",
@@ -320,7 +356,11 @@ const TimelineScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         <View className="px-3">
-          <View className="flex flex-row items-center py-1">
+          <TouchableOpacity
+            className="flex flex-row items-center py-1"
+            activeOpacity={0.5}
+            onPress={() => navigation.navigate("HomeFeedLiker")}
+          >
             <Image
               className="w-5 h-5 rounded-full"
               source={{ uri: item.image }}
@@ -329,18 +369,18 @@ const TimelineScreen = ({ navigation }) => {
               {" "}
               {countUserFeedById(item.id, "likes")} suka
             </Text>
-          </View>
-          <Text
-            className="py-1"
-            lineBreakMode="tail"
-            ellipsizeMode="tail"
-            textBreakStrategy="balanced"
-          >
-            <Text className="font-bold">{item.username}</Text>{" "}
+          </TouchableOpacity>
+          <Text className="py-1">
+            <Text
+              className="font-bold"
+              onPress={() => navigation.navigate("Profile")}
+            >
+              {item.username}
+            </Text>{" "}
             <Text>{item.caption}</Text>
           </Text>
           {countUserFeedById(item.id, "comments") > 0 && (
-            <Pressable onPress={() => null}>
+            <Pressable onPress={() => console.log("Lihat komentar")}>
               <Text className="font-bold text-gray-700 opacity-60">
                 Lihat semua {countUserFeedById(item.id, "comments")} komentar
               </Text>
@@ -352,12 +392,13 @@ const TimelineScreen = ({ navigation }) => {
     []
   );
 
-  const keyExtractorById = ({ id }) => id;
+  const keyExtractorById = useCallback((item) => item.id, []);
 
   return (
     <>
+      <FocusedStatusBar backgroundColor="transparent" />
+      <Navbar navigation={navigation} />
       <SafeAreaView>
-        <FocusedStatusBar backgroundColor="transparent" />
         <View className="flex flex-row items-center justify-between pl-4">
           <Text className="text-4xl" style={{ fontFamily: "Billabong" }}>
             Instagram
@@ -423,66 +464,6 @@ const TimelineScreen = ({ navigation }) => {
           />
         </View>
       </SafeAreaView>
-      {/* Navbar */}
-      <View className="absolute bottom-0 left-0 w-full bg-white border-t-[0.5px] border-gray-200">
-        <View className="flex flex-row items-center justify-center">
-          <TouchableOpacity
-            className="flex items-center justify-center flex-grow h-12"
-            onPress={() => navigation.navigate("Timeline")}
-          >
-            <Image
-              source={{
-                uri: "https://cdn-icons-png.flaticon.com/512/5948/5948524.png",
-              }}
-              className="w-6 h-6"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            className="flex items-center justify-center flex-grow h-12"
-            onPress={() => navigation.navigate("Explore")}
-          >
-            <Image
-              source={{
-                uri: "https://cdn-icons-png.flaticon.com/512/5948/5948534.png",
-              }}
-              className="w-6 h-6"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            className="flex items-center justify-center flex-grow h-12"
-            onPress={() => navigation.navigate("Reels")}
-          >
-            <Image
-              source={{
-                uri: "https://cdn-icons-png.flaticon.com/512/5948/5948543.png",
-              }}
-              className="w-6 h-6"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            className="flex items-center justify-center flex-grow h-12"
-            onPress={() => navigation.navigate("MarketPlace")}
-          >
-            <Image
-              source={{
-                uri: "https://cdn-icons-png.flaticon.com/512/5948/5948550.png",
-              }}
-              className="w-6 h-6"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            className="flex items-center justify-center flex-grow h-12"
-            onPress={() => navigation.navigate("Profile")}
-          >
-            <Image
-              source={{
-                uri: "http://unsplash.it/400?random",
-              }}
-              className="w-6 h-6 rounded-full"
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
     </>
   );
 };
