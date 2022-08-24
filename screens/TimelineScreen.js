@@ -295,7 +295,7 @@ const TimelineScreen = ({ navigation }) => {
               )}
             </View>
           </TouchableOpacity>
-          <View className="p-4">
+          <View className="p-4" onPress={() => console.log("more clicked")}>
             <Feather size={18} name="more-vertical" />
           </View>
         </View>
@@ -381,7 +381,7 @@ const TimelineScreen = ({ navigation }) => {
           </Text>
           {countUserFeedById(item.id, "comments") > 0 && (
             <Pressable onPress={() => console.log("Lihat komentar")}>
-              <Text className="font-bold text-gray-700 opacity-60">
+              <Text className="font-bold text-gray-400">
                 Lihat semua {countUserFeedById(item.id, "comments")} komentar
               </Text>
             </Pressable>

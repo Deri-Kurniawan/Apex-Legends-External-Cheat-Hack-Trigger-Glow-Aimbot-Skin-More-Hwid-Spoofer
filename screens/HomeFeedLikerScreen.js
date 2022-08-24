@@ -83,7 +83,7 @@ const HomeFeedLikerScreen = ({ navigation }) => {
             </Pressable>
             <View className="pl-4">
               <Text>{item.username}</Text>
-              <Text className="text-gray-500">{item.name}</Text>
+              <Text className="text-gray-400">{item.name}</Text>
             </View>
           </View>
           <TouchableOpacity
