@@ -1,11 +1,17 @@
-import { View, Text } from "react-native";
+import { SafeAreaView, Text } from "react-native";
 import React from "react";
+import Navbar from "../components/Navbar";
+import FocusedStatusBar from "../components/FocusedStatusbar";
 
-const MarketPlaceScreen = () => {
+const MarketPlaceScreen = ({ navigation }) => {
   return (
-    <View>
-      <Text>Market Place Screen</Text>
-    </View>
+    <>
+      <FocusedStatusBar backgroundColor="transparent" />
+      <Navbar navigation={navigation} />
+      <SafeAreaView>
+        <Text>Market Place Screen</Text>
+      </SafeAreaView>
+    </>
   );
 };
 

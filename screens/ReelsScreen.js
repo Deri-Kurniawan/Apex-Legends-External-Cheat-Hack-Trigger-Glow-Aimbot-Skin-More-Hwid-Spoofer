@@ -1,11 +1,17 @@
-import { View, Text } from "react-native";
+import { SafeAreaView, Text } from "react-native";
 import React from "react";
+import Navbar from "../components/Navbar";
+import FocusedStatusBar from "../components/FocusedStatusbar";
 
-const ReelsScreen = () => {
+const ReelsScreen = ({ navigation }) => {
   return (
-    <View>
-      <Text>Reels Screen</Text>
-    </View>
+    <>
+      <FocusedStatusBar backgroundColor="transparent" />
+      <Navbar navigation={navigation} />
+      <SafeAreaView>
+        <Text>Reels Screen</Text>
+      </SafeAreaView>
+    </>
   );
 };
 
