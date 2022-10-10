@@ -20,24 +20,17 @@ import {
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "../firebase-config";
+import { Link } from "@react-navigation/native";
 
 const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("deri.netuchi@gmail.com");
-  const [password, setPassword] = useState("deri12345");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [nativeLoginIsLoading, setNativeLoginIsLoading] = useState(false);
   const [loginWithFacebookIsLoading, setLoginWithFacebookIsLoading] =
     useState(false);
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-
-  const createAccountHandler = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((res) => {
-        console.log("Account created", res);
-      })
-      .catch((error) => console.log(error));
-  };
 
   const loginHandler = () => {
     setNativeLoginIsLoading(true);
@@ -81,7 +74,13 @@ const LoginScreen = ({ navigation }) => {
             "Tidak Bisa Masuk",
             "Akun ini telah dinonaktifkan karena melanggar pedoman komunitas kami. Silakan hubungi kami jika Anda merasa ini adalah kesalahan."
           );
-        } else if (error.code === "auth/user-not-found") {
+          return;
+        }
+        if (error.code === "auth/invalid-email") {
+          Alert.alert("Email tidak valid", "Harap masukkan email yang valid");
+          return;
+        }
+        if (error.code === "auth/user-not-found") {
           Alert.alert(
             "Tidak Bisa Menemukan Akun",
             `Kami tidak bisa menemukan akun dengan ${email}. Coba nomor telepon atau email lain, atau jika Anda tidak bisa memiliki akun instagram, Anda bisa mendaftar`,
@@ -92,15 +91,17 @@ const LoginScreen = ({ navigation }) => {
               },
               {
                 text: "Daftar",
-                onPress: () => navigation.navigate("RegisterScreen"),
+                onPress: () => navigation.navigate("Register"),
               },
             ]
           );
-        } else if (error.code === "auth/wrong-password") {
-          Alert.alert("Login Failed", "Wrong password");
-        } else {
-          Alert.alert("Login Failed", error.message);
+          return;
         }
+        if (error.code === "auth/wrong-password") {
+          Alert.alert("Login Failed", "Wrong password");
+          return;
+        }
+        Alert.alert("Login Failed", error.message);
       });
   };
 
@@ -117,11 +118,17 @@ const LoginScreen = ({ navigation }) => {
       <FocusedStatusBar backgroundColor="transparent" />
       <SafeAreaView>
         <View className="h-full">
-          <View className="absolute bottom-0 w-full">
+          <View className="absolute bottom-0 w-full z-10">
             <View className="flex-1 h-[1px] bg-gray-400 mb-4" />
             <Text className="mb-4 text-xs text-center text-gray-500">
               Tidak punya akun?{" "}
-              <Text className="font-bold text-blue-900">Buat Akun</Text>.
+              <Text
+                className="font-bold text-blue-900"
+                onPress={() => navigation.navigate("Register")}
+              >
+                Buat Akun
+              </Text>
+              .
             </Text>
           </View>
           <ScrollView>
@@ -139,7 +146,10 @@ const LoginScreen = ({ navigation }) => {
                 className="h-12 pl-4 border-[0.5px] rounded-md placeholder:text-gray-300/80 border-gray-400/80 bg-gray-100/60 mb-4"
                 placeholder="Nomor telepon, nama pengguna atau alamat email"
                 defaultValue={email}
-                onChangeText={(txt) => setEmail(txt)}
+                onChangeText={(txt) => {
+                  txt = txt.toLowerCase();
+                  setEmail(txt);
+                }}
               />
               <TextInput
                 className="h-12 pl-4 border-[0.5px] rounded-md placeholder:text-gray-300/80 border-gray-400/80 bg-gray-100/60 mb-4"

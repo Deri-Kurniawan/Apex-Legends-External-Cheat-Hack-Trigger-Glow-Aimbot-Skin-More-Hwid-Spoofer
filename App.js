@@ -9,6 +9,7 @@ import ReelsScreen from "./screens/ReelsScreen";
 import MarketPlaceScreen from "./screens/MarketPlaceScreen";
 import HomeFeedLikerScreen from "./screens/HomeFeedLikerScreen";
 import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -68,6 +69,11 @@ export default function App() {
             options={{ animation: "fade_from_bottom" }}
             name="Login"
             component={LoginScreen}
+          />
+          <Stack.Screen
+            options={{ animation: "fade_from_bottom" }}
+            name="Register"
+            component={RegisterScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>
