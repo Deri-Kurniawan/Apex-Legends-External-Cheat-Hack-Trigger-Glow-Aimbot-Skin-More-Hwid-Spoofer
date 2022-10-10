@@ -8,6 +8,7 @@ import ExploreScreen from "./screens/ExploreScreen";
 import ReelsScreen from "./screens/ReelsScreen";
 import MarketPlaceScreen from "./screens/MarketPlaceScreen";
 import HomeFeedLikerScreen from "./screens/HomeFeedLikerScreen";
+import LoginScreen from "./screens/LoginScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -31,7 +32,7 @@ export default function App() {
       <NavigationContainer theme={theme}>
         <Stack.Navigator
           screenOptions={{ headerShown: false }}
-          initialRouteName="Timeline"
+          initialRouteName="Login"
         >
           <Stack.Screen
             options={{ animation: "none" }}
@@ -62,6 +63,11 @@ export default function App() {
             options={{ animation: "slide_from_right" }}
             name="HomeFeedLiker"
             component={HomeFeedLikerScreen}
+          />
+          <Stack.Screen
+            options={{ animation: "fade_from_bottom" }}
+            name="Login"
+            component={LoginScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>
